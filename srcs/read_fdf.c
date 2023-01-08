@@ -25,7 +25,7 @@ void ft_free_multi_arr(char **data_line)
 	free(data_line);
 }
 
-t_c_dot *ft_read_fdf(int fd, t_data *img)
+t_c_dot *ft_read_fdf(int fd, void *mlx, void *mlx_win, t_data *img)
 {
 	//int		readn;
 	int		linelen[2];
@@ -34,7 +34,8 @@ t_c_dot *ft_read_fdf(int fd, t_data *img)
 	t_c_dot	*fdf_data;
 	int		cnt_x;
 	int		cnt_z;
-
+							(void) mlx_win;
+							(void) mlx;
 	linelen[0] = 0;
 	// read input fdf file
 	readline = get_next_line(fd);

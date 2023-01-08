@@ -14,7 +14,7 @@ void ft_c_x_rotate(t_c_dot *c_dots, double theta)
 	i = 0;
 	sinTheta = sin(theta);
 	cosTheta = cos(theta);
-	while (c_dots->color != 0x3456789A)
+	while (c_dots->color != 0xFF56789A)
 	{ 
 		y = c_dots->cy;
 		z = c_dots->cz;
@@ -35,7 +35,7 @@ void ft_c_y_rotate(t_c_dot *c_dots, double theta)
 	i = 0;
 	sinTheta = sin(theta);
 	cosTheta = cos(theta);
-	while (c_dots->color != 0x3456789A)
+	while (c_dots->color != 0xFF56789A)
 	{ 
 //		ft_printf("x: %d, y: %d, z: %d \n", c_dots->cx, c_dots->cy, c_dots->cz);
 		x = c_dots->cx;
@@ -57,7 +57,7 @@ void ft_c_z_rotate(t_c_dot *c_dots, double theta)
 	i = 0;
 	sinTheta = sin(theta);
 	cosTheta = cos(theta);
-	while (c_dots->color != 0x3456789A)
+	while (c_dots->color != 0xFF56789A)
 	{ 
 		x = c_dots->cx;
 		y = c_dots->cy;

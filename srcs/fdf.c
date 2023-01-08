@@ -28,7 +28,7 @@ int	main(int argc, char **argv)
 	t_data	img;
 	t_c_dot c;
 	t_f_dot	f;
-	t_fdf	*fdf_data;
+	t_c_dot	*fdf_data;
 	double	radian = 0.46365;
 
 	                          atexit(check_leak);//
@@ -44,7 +44,7 @@ int	main(int argc, char **argv)
 	img.img = mlx_new_image(mlx, 1000, 1000);
 	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
 
-	fdf_data = ft_read_fdf(open(argv[1], O_RDONLY), &img);
+	fdf_data = ft_read_fdf(open(argv[1], O_RDONLY), mlx, mlx_win, &img);
 
 
 	for (c.cy = 0; c.cy <= 100; c.cy++)
@@ -55,7 +55,7 @@ int	main(int argc, char **argv)
 			{
 				if ((c.cx % 50 == 0 || c.cz % 50 == 0 ) && c.cy % 50 == 0)
 				{	
-					f = to_f(&img, &c, radian);
+					f = to_f(&img, c, radian);
 					if(c.cy == 0)
 						f.color = 0x0000AA00;
 					if(c.cy == 50)
@@ -114,7 +114,7 @@ int	main(int argc, char **argv)
 	c_dots[10].cy = 100;
 	c_dots[10].cz = 100;
 
-	c_dots[11].color = 0x3456789A;
+	c_dots[11].color = 0xFF56789A;
 
 	//3d cartesian axis rotate
 	ft_c_rotate(c_dots, Z_AXIS, 30);
@@ -124,10 +124,10 @@ int	main(int argc, char **argv)
 
 	for (int i = 0 ; i < 10; i++)
 	{
-		ft_drawline(&img, to_f(&img, &c_dots[i], radian), to_f(&img, &c_dots[i+1], radian), 0x00FF0000);
+		ft_drawline(&img, to_f(&img, c_dots[i], radian), to_f(&img, c_dots[i+1], radian), 0x00FF0000);
 
-		s_dot = to_f(&img, &c_dots[i], radian);
-		e_dot = to_f(&img, &c_dots[i+1], radian);		
+		s_dot = to_f(&img, c_dots[i], radian);
+		e_dot = to_f(&img, c_dots[i+1], radian);		
 		ft_printf("s_x: %d, s_y: %d, e_x: %d, e_y: %d\n", s_dot.fx, s_dot.fy, e_dot.fx, e_dot.fy);
 	}
 	mlx_put_image_to_window(mlx, mlx_win, img.img, 0, 0);

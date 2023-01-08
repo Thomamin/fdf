@@ -13,6 +13,16 @@
 #ifndef FDF_H
 # define FDF_H
 
+# ifndef X_AXIS
+#  define X_AXIS 1
+# endif
+# ifndef Y_AXIS
+#  define Y_AXIS 2
+# endif
+# ifndef Z_AXIS
+#  define Z_AXIS 3
+# endif
+
 typedef struct	s_args {
 	void	*mlx;
 	void	*win;
@@ -29,10 +39,10 @@ typedef struct	s_data
 
 typedef struct	s_c_dot
 {
-	int		cx;
-	int		cy;
-	int		cz;
-	int		color;
+	int				cx;
+	int				cy;
+	int				cz;
+	unsigned int	color;
 }				t_c_dot;
 
 typedef struct	s_f_dot
@@ -55,5 +65,6 @@ void 	my_hook(void *win, void *param);
 void	my_loop_hook(void *mlx, void *args);
 int		render_next_frame(void *mlx, t_fdf *fdata);
 t_c_dot	*ft_read_fdf(int fd, void *mlx, void *mlx_win, t_data *img);
+void	ft_c_rotate(t_c_dot *c_dots, int axit, int degree_theta);
 
 #endif
