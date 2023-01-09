@@ -12,23 +12,8 @@
 
 #include <stdlib.h>
 #include <unistd.h>
+#include "libft.h"
 #include "get_next_line.h"
-
-void	*ft_memcpy(void *dst, const void *src, size_t n)
-{
-	unsigned char		*d;
-	const unsigned char	*s;
-
-	if (dst == NULL && src == NULL)
-		return (dst);
-	d = (unsigned char *) dst;
-	s = (const unsigned char *) src;
-	while (n--)
-	{
-		*d++ = *s++;
-	}
-	return (dst);
-}
 
 void	*ft_memchr(const void *s, int c, size_t n)
 {
@@ -67,7 +52,7 @@ void	*ft_conc_m(t_line *r_l, unsigned char *buf, size_t buf_sz)
 	return (new_mem);
 }
 
-void	*ft_c_l(t_line *r_l, unsigned char *buf, ssize_t rn, t_list *n_b)
+void	*ft_c_l(t_line *r_l, unsigned char *buf, ssize_t rn, t_gnl_list *n_b)
 {
 	unsigned char	*new_mem;
 	unsigned char	*r_mem;

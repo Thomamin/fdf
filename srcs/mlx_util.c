@@ -1,5 +1,6 @@
 #include <mlx.h>
 #include <stdlib.h>
+#include <libft.h>
 #include "fdf.h"
 
 void	my_mlx_pixel_put(t_data *data, t_f_dot f)
@@ -10,7 +11,7 @@ void	my_mlx_pixel_put(t_data *data, t_f_dot f)
 	*(unsigned int*)dst = f.color;
 }
 
-void	ft_drawline_h(t_data *data, t_f_dot f0, t_f_dot f1, int color)
+void	ft_drawline_h(t_data *data, t_f_dot f0, t_f_dot f1, unsigned int color)
 {
     t_f_dot df;
 	int		p;
@@ -28,9 +29,7 @@ void	ft_drawline_h(t_data *data, t_f_dot f0, t_f_dot f1, int color)
 	}
 	f.fx = f0.fx;
 	f.fy = f0.fy;
- 
 	p = 2 * df.fx - df.fy;
- 
 	while(f.fy < f1.fy)
 	{
 		my_mlx_pixel_put(data, f);
@@ -80,7 +79,7 @@ void	ft_drawline_w(t_data *data, t_f_dot f0, t_f_dot f1, int color)
 	}
 }
 
-void ft_drawline(t_data *data, t_f_dot f0, t_f_dot f1, int color)
+void ft_drawline(t_data *data, t_f_dot f0, t_f_dot f1, unsigned int color)
 {
 	if (abs(f1.fy - f0.fy) < abs (f1.fx - f0.fx))
 	{
@@ -97,4 +96,37 @@ void ft_drawline(t_data *data, t_f_dot f0, t_f_dot f1, int color)
 			ft_drawline_h(data, f0, f1, color);
 	}	
 
+}
+
+void ft_drawmesh(t_fdf *fdf, t_data *img, double rad, unsigned int color)
+{
+	int i;
+	int	j;
+	t_c_dot *c_dots;
+
+	i = 0; 
+	c_dots = fdf->c_dots;
+	while (i < fdf->cnt_x - 1)
+	{
+		j = 0;
+		while (j < fdf->cnt_z)
+		{
+			ft_drawline(img, to_f(img, c_dots[j * (fdf->cnt_x) + i], rad), \
+			to_f(img, c_dots[j * (fdf->cnt_x) + i + 1], rad), color);
+			j++;
+		}
+		i++;
+	}
+}
+
+t_args *my_init_mlx_win(t_args *mlx_arg, t_data *img, int size_x, int size_y)
+{
+	mlx_arg->mlx = mlx_init();
+	if(!mlx_arg->mlx)
+		ft_printf("Error : Can't connect to the graphical system\n");
+	mlx_arg->win = mlx_new_window(mlx_arg->mlx, size_x, size_y, "Hello world!");
+	img->img = mlx_new_image(mlx_arg->mlx, size_x, size_y);
+	img->addr = mlx_get_data_addr(img->img, &img->bits_per_pixel, &img->line_length, &img->endian);
+		ft_printf("dbg 0\n"); //===============================
+	return (mlx_arg);
 }

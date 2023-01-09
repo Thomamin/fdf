@@ -1,5 +1,6 @@
 #include <math.h>
 #include "fdf.h"
+#include <libft.h>  //-------------------------------------------
 
 // transforms x,y,z coordinates into Flash x coordinate
 int	to_fx(t_data *data, t_c_dot dot, double radian) 
@@ -29,7 +30,7 @@ int to_fy(t_data *data, t_c_dot dot, double radian)
 t_f_dot to_f(t_data *data, t_c_dot dot, double radian)
 {
 	t_f_dot f;
-
+	ft_printf("x: %d, y: %d, z: %d\n", dot.cx, dot.cy, dot.cz);
 	f.fx = to_fx(data, dot, radian);
 	f.fy = to_fy(data, dot, radian);
 	return (f);

@@ -8,8 +8,8 @@
 			"type": "lldb",
 			"request": "launch",
 			"name": "Debug",
-			"program": "${workspaceFolder}/<executable file>",
-			"args": [],
+			"program": "${workspaceFolder}/fdf",
+			"args": ["./test_maps/10-2.fdf"],
 			"cwd": "${workspaceFolder}"
 		}
 	]

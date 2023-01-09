@@ -1,5 +1,6 @@
 NAME = fdf
 FLAGS = -Wall -Wextra -Werror
+SRC_PATH = ./srcs
 SRC_NAME = fdf.c c_to_f.c mlx_util.c my_hook.c read_fdf.c ft_c_rotate.c 
 SRC = $(addprefix $(SRC_PATH)/, $(SRC_NAME))
 

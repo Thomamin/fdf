@@ -47,24 +47,28 @@ typedef struct	s_c_dot
 
 typedef struct	s_f_dot
 {
-	int		fx;
-	int		fy;
-	int		color;
+	int				fx;
+	int				fy;
+	unsigned int	color;
 }				t_f_dot;
 
 typedef struct	s_fdf
 {
-	t_c_dot	**c_dots;
+	t_c_dot			*c_dots;
+	int				cnt_x;
+	int				cnt_z;
 }				t_fdf;
 
 
+t_args *my_init_mlx_win(t_args *mlx_arg, t_data *img, int size_x, int size_y);
 t_f_dot to_f(t_data *data, t_c_dot dot, double radian);
-void	ft_drawline(t_data *data, t_f_dot f1, t_f_dot f2, int color);
-void	my_mlx_pixel_put(t_data *data, t_f_dot f);
+void ft_drawmesh(t_fdf *fdf, t_data *img, double rad, unsigned int color);
+void 	ft_drawline(t_data *img, t_f_dot f1, t_f_dot f2, unsigned int color);
+void 	my_mlx_pixel_put(t_data *data, t_f_dot f);
 void 	my_hook(void *win, void *param);
-void	my_loop_hook(void *mlx, void *args);
+void 	my_loop_hook(void *mlx, void *args);
 int		render_next_frame(void *mlx, t_fdf *fdata);
-t_c_dot	*ft_read_fdf(int fd, void *mlx, void *mlx_win, t_data *img);
-void	ft_c_rotate(t_c_dot *c_dots, int axit, int degree_theta);
+void	ft_read_fdf(t_fdf *fdf, int fd, t_args *mlx_arg, t_data *img);
+void	ft_c_rotate(t_fdf *fdf, int axit, int degree_theta);
 
 #endif

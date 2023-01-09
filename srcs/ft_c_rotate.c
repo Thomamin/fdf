@@ -3,7 +3,7 @@
 #include <libft.h>
 #include "fdf.h"
 
-void ft_c_x_rotate(t_c_dot *c_dots, double theta)
+void ft_c_x_rotate(t_fdf *fdf, double theta)
 {
 	double	sinTheta;
 	double	cosTheta;
@@ -14,17 +14,17 @@ void ft_c_x_rotate(t_c_dot *c_dots, double theta)
 	i = 0;
 	sinTheta = sin(theta);
 	cosTheta = cos(theta);
-	while (c_dots->color != 0xFF56789A)
+	while (i++ < fdf->cnt_x * fdf->cnt_z)
 	{ 
-		y = c_dots->cy;
-		z = c_dots->cz;
-		c_dots->cy = y * cosTheta - z * sinTheta;
-		c_dots->cz = z * cosTheta + y * sinTheta;
-		c_dots++;
+		y = fdf->c_dots->cy;
+		z = fdf->c_dots->cz;
+		fdf->c_dots->cy = y * cosTheta - z * sinTheta;
+		fdf->c_dots->cz = z * cosTheta + y * sinTheta;
+		fdf->c_dots++;
 	}
 }
 
-void ft_c_y_rotate(t_c_dot *c_dots, double theta)
+void ft_c_y_rotate(t_fdf *fdf, double theta)
 {
 	double sinTheta;
    	double cosTheta;
@@ -35,18 +35,18 @@ void ft_c_y_rotate(t_c_dot *c_dots, double theta)
 	i = 0;
 	sinTheta = sin(theta);
 	cosTheta = cos(theta);
-	while (c_dots->color != 0xFF56789A)
+	while (i++ < fdf->cnt_x * fdf->cnt_z)
 	{ 
 //		ft_printf("x: %d, y: %d, z: %d \n", c_dots->cx, c_dots->cy, c_dots->cz);
-		x = c_dots->cx;
-		z = c_dots->cz;
-		c_dots->cx = x * cosTheta + z * sinTheta;
-		c_dots->cz = z * cosTheta - x * sinTheta;
-		c_dots++;
+		x = fdf->c_dots->cx;
+		z = fdf->c_dots->cz;
+		fdf->c_dots->cx = x * cosTheta + z * sinTheta;
+		fdf->c_dots->cz = z * cosTheta - x * sinTheta;
+		fdf->c_dots++;
 	}
 }
 
-void ft_c_z_rotate(t_c_dot *c_dots, double theta)
+void ft_c_z_rotate(t_fdf *fdf, double theta)
 {
 	double	sinTheta;
    	double	cosTheta;
@@ -57,27 +57,27 @@ void ft_c_z_rotate(t_c_dot *c_dots, double theta)
 	i = 0;
 	sinTheta = sin(theta);
 	cosTheta = cos(theta);
-	while (c_dots->color != 0xFF56789A)
+	while (i++ < fdf->cnt_x * fdf->cnt_z)
 	{ 
-		x = c_dots->cx;
-		y = c_dots->cy;
-		c_dots->cx = x * cosTheta - y * sinTheta;
-		c_dots->cy = y * cosTheta + x * sinTheta;
-		c_dots++;
+		x = fdf->c_dots->cx;
+		y = fdf->c_dots->cy;
+		fdf->c_dots->cx = x * cosTheta - y * sinTheta;
+		fdf->c_dots->cy = y * cosTheta + x * sinTheta;
+		fdf->c_dots++;
 	}
 }
 
 
-void ft_c_rotate(t_c_dot *c_dots, int axis, int degree_theta)
+void ft_c_rotate(t_fdf *fdf, int axis, int degree_theta)
 {
 	double	radian_theta;
 	
 	radian_theta = (degree_theta % 360) * (M_PI / 180.0);
 	if (axis == X_AXIS)
-		ft_c_x_rotate(c_dots, radian_theta);
+		ft_c_x_rotate(fdf, radian_theta);
 	if (axis == Y_AXIS)
-		ft_c_y_rotate(c_dots, radian_theta);
+		ft_c_y_rotate(fdf, radian_theta);
 	if (axis == Z_AXIS)
-		ft_c_z_rotate(c_dots, radian_theta);
+		ft_c_z_rotate(fdf, radian_theta);
 	
 }

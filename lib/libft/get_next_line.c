@@ -14,9 +14,9 @@
 #include <unistd.h>
 #include "get_next_line.h"
 
-void	ft_del_node(t_list **list_backup, t_list *n_b)
+void	ft_del_node(t_gnl_list **list_backup, t_gnl_list *n_b)
 {
-	t_list	*node;
+	t_gnl_list	*node;
 
 	node = *list_backup;
 	if (node == n_b)
@@ -42,7 +42,7 @@ void	ft_del_node(t_list **list_backup, t_list *n_b)
 	}
 }
 
-t_list	*ft_init_n_b(t_list **list_backup, t_list *n_b, int fd)
+t_gnl_list	*ft_init_n_b(t_gnl_list **list_backup, t_gnl_list *n_b, int fd)
 {
 	n_b->fd = fd;
 	n_b->bk = NULL;
@@ -54,12 +54,12 @@ t_list	*ft_init_n_b(t_list **list_backup, t_list *n_b, int fd)
 	return (n_b);
 }
 
-t_list	*ft_find_backup(t_list **list_backup, int fd)
+t_gnl_list	*ft_find_backup(t_gnl_list **list_backup, int fd)
 {	
-	t_list	*n_b;
+	t_gnl_list	*n_b;
 
 	if (fd < 0)
-		return ((t_list *) NULL);
+		return ((t_gnl_list *) NULL);
 	if (list_backup != NULL)
 	{
 		n_b = *list_backup;
@@ -71,13 +71,13 @@ t_list	*ft_find_backup(t_list **list_backup, int fd)
 				n_b = n_b->next;
 		}
 	}
-	n_b = (t_list *)malloc(sizeof(t_list));
+	n_b = (t_gnl_list *)malloc(sizeof(t_gnl_list));
 	if (!n_b)
-		return ((t_list *) NULL);
+		return ((t_gnl_list *) NULL);
 	return (ft_init_n_b(list_backup, n_b, fd));
 }
 
-ssize_t	ft_backup_to_buf(t_list *n_b, unsigned char *buf)
+ssize_t	ft_backup_to_buf(t_gnl_list *n_b, unsigned char *buf)
 {
 	int	n;
 
@@ -96,8 +96,8 @@ char	*get_next_line(int fd)
 {
 	ssize_t					rn;
 	unsigned char			buf[BUFFER_SIZE + 1];
-	static t_list			*l_b;
-	t_list					*n_b;
+	static t_gnl_list			*l_b;
+	t_gnl_list					*n_b;
 	t_line					r_l;
 
 	r_l.line = NULL;
