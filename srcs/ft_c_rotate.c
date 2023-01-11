@@ -7,42 +7,43 @@ void ft_c_x_rotate(t_fdf *fdf, double theta)
 {
 	double	sinTheta;
 	double	cosTheta;
-	int		y;
-	int		z;
+	t_c_dot	*c_dots;
+	t_f_dot	f_dot;
 	int		i;
 
 	i = 0;
+	c_dots = fdf->c_dots;
 	sinTheta = sin(theta);
 	cosTheta = cos(theta);
 	while (i++ < fdf->cnt_x * fdf->cnt_z)
 	{ 
-		y = fdf->c_dots->cy;
-		z = fdf->c_dots->cz;
-		fdf->c_dots->cy = y * cosTheta - z * sinTheta;
-		fdf->c_dots->cz = z * cosTheta + y * sinTheta;
-		fdf->c_dots++;
+		f_dot.fy = c_dots->cy;
+		f_dot.fx = c_dots->cz;
+		c_dots->cy = f_dot.fy * cosTheta - f_dot.fx * sinTheta;
+		c_dots->cz = f_dot.fx * cosTheta + f_dot.fy * sinTheta;
+		c_dots++;
 	}
 }
 
 void ft_c_y_rotate(t_fdf *fdf, double theta)
 {
-	double sinTheta;
-   	double cosTheta;
-	int		x;
-	int		z;
+	double	sinTheta;
+   	double	cosTheta;
+	t_c_dot	*c_dots;
+	t_f_dot	f_dot;
 	int		i;
 
 	i = 0;
+	c_dots = fdf->c_dots;
 	sinTheta = sin(theta);
 	cosTheta = cos(theta);
 	while (i++ < fdf->cnt_x * fdf->cnt_z)
 	{ 
-//		ft_printf("x: %d, y: %d, z: %d \n", c_dots->cx, c_dots->cy, c_dots->cz);
-		x = fdf->c_dots->cx;
-		z = fdf->c_dots->cz;
-		fdf->c_dots->cx = x * cosTheta + z * sinTheta;
-		fdf->c_dots->cz = z * cosTheta - x * sinTheta;
-		fdf->c_dots++;
+		f_dot.fx = c_dots->cx;
+		f_dot.fy = c_dots->cz;
+		c_dots->cx = f_dot.fx * cosTheta + f_dot.fy * sinTheta;
+		c_dots->cz = f_dot.fy * cosTheta - f_dot.fx * sinTheta;
+		c_dots++;
 	}
 }
 
@@ -50,20 +51,21 @@ void ft_c_z_rotate(t_fdf *fdf, double theta)
 {
 	double	sinTheta;
    	double	cosTheta;
-	int		x;
-	int		y;
+	t_c_dot	*c_dots;
+	t_f_dot	f_dot;
 	int		i;
 
 	i = 0;
+	c_dots = fdf->c_dots;
 	sinTheta = sin(theta);
 	cosTheta = cos(theta);
 	while (i++ < fdf->cnt_x * fdf->cnt_z)
 	{ 
-		x = fdf->c_dots->cx;
-		y = fdf->c_dots->cy;
-		fdf->c_dots->cx = x * cosTheta - y * sinTheta;
-		fdf->c_dots->cy = y * cosTheta + x * sinTheta;
-		fdf->c_dots++;
+		f_dot.fx = c_dots->cx;
+		f_dot.fy = c_dots->cy;
+		c_dots->cx = f_dot.fx * cosTheta - f_dot.fy * sinTheta;
+		c_dots->cy = f_dot.fy * cosTheta + f_dot.fx * sinTheta;
+		c_dots++;
 	}
 }
 
@@ -80,4 +82,21 @@ void ft_c_rotate(t_fdf *fdf, int axis, int degree_theta)
 	if (axis == Z_AXIS)
 		ft_c_z_rotate(fdf, radian_theta);
 	
+}
+
+void ft_c_zoom(t_fdf *fdf, float times)
+{
+	int		i;
+	t_c_dot	*c_dots;
+
+	c_dots = fdf->c_dots;
+	i = 0;
+
+	while (i++ < fdf->cnt_x * fdf->cnt_z)
+	{
+		c_dots->cx = c_dots->cx * times;
+		c_dots->cy = c_dots->cy * times;
+		c_dots->cz = c_dots->cz * times;
+		c_dots++;
+	}
 }
