@@ -18,7 +18,6 @@ void	ft_drawline_h(t_data *data, t_f_dot f0, t_f_dot f1, unsigned int color)
 	t_f_dot	f;
 	int		inc;
  
-	f.color = color;
 	df.fx = f1.fx - f0.fx;
 	df.fy = f1.fy - f0.fy;
 	inc = 1;
@@ -29,6 +28,7 @@ void	ft_drawline_h(t_data *data, t_f_dot f0, t_f_dot f1, unsigned int color)
 	}
 	f = f0;
 	p = 2 * df.fx - df.fy;
+	f.color = color;
 	while(f.fy < f1.fy)
 	{
 		my_mlx_pixel_put(data, f);
@@ -43,14 +43,13 @@ void	ft_drawline_h(t_data *data, t_f_dot f0, t_f_dot f1, unsigned int color)
 	}
 }
 
-void	ft_drawline_w(t_data *data, t_f_dot f0, t_f_dot f1, int color)
+void	ft_drawline_w(t_data *data, t_f_dot f0, t_f_dot f1, unsigned int color)
 {
     t_f_dot df;
 	int		p;
 	t_f_dot	f;
 	int		inc;
  
-	f.color = color;
 	df.fx = f1.fx - f0.fx;
 	df.fy = f1.fy - f0.fy;
 	inc = 1;
@@ -61,9 +60,8 @@ void	ft_drawline_w(t_data *data, t_f_dot f0, t_f_dot f1, int color)
 	}	
 	f.fx = f0.fx;
 	f.fy = f0.fy;
- 
 	p = 2 * df.fy - df.fx;
- 
+ 	f.color = color;
 	while(f.fx < f1.fx)
 	{
 		my_mlx_pixel_put(data, f);
@@ -94,10 +92,9 @@ void ft_drawline(t_data *data, t_f_dot f0, t_f_dot f1, unsigned int color)
 		else
 			ft_drawline_h(data, f0, f1, color);
 	}	
-
 }
 
-void ft_draw_x_lines(t_fdf *fdf, t_data *img, double rad, unsigned int color, t_f_dot size)
+void ft_draw_x_lines(t_fdf *fdf, t_data *img, double rad, unsigned int color, t_imgsz size)
 {
 	int i;
 	int	j;
@@ -110,15 +107,15 @@ void ft_draw_x_lines(t_fdf *fdf, t_data *img, double rad, unsigned int color, t_
 		j = 0;
 		while (j < fdf->cnt_x - 1)
 		{
-			ft_drawline(img, to_f(img, c_dots[i * (fdf->cnt_x) + j], rad, size), \
-			to_f(img, c_dots[i * (fdf->cnt_x) + j + 1], rad, size), color);
+			ft_drawline(img, to_f(c_dots[i * (fdf->cnt_x) + j], rad, size), \
+							to_f(c_dots[i * (fdf->cnt_x) + j + 1], rad, size), color);			
 			j++;
 		}
 		i++;
 	}	
 }
 
-void ft_draw_z_lines(t_fdf *fdf, t_data *img, double rad, unsigned int color, t_f_dot size)
+void ft_draw_z_lines(t_fdf *fdf, t_data *img, double rad, unsigned int color, t_imgsz size)
 {
 	int i;
 	int	j;
@@ -131,15 +128,15 @@ void ft_draw_z_lines(t_fdf *fdf, t_data *img, double rad, unsigned int color, t_
 		j = 0;
 		while (j < fdf->cnt_z - 1)
 		{
-			ft_drawline(img, to_f(img, c_dots[j * (fdf->cnt_x) + i], rad, size), \
-			to_f(img, c_dots[(j + 1) * (fdf->cnt_x) + i], rad, size), color);
+			ft_drawline(img, to_f(c_dots[j * (fdf->cnt_x) + i], rad, size), \
+							to_f(c_dots[(j + 1) * (fdf->cnt_x) + i], rad, size), color);
 			j++;
 		}
 		i++;
 	}
 }
 
-void ft_drawmesh(t_fdf *fdf, t_data *img, double rad, unsigned int color, t_f_dot size)
+void ft_drawmesh(t_fdf *fdf, t_data *img, double rad, unsigned int color, t_imgsz size)
 {
 	ft_draw_x_lines(fdf, img, rad, color, size);
 	ft_draw_z_lines(fdf, img, rad, color, size);

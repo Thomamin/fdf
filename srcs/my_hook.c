@@ -22,14 +22,6 @@ int	mouse_hook_mng(int mousecode, void *param)
 	return (0);
 }
 
-void my_hook(void *win, void *param)
-{
-	mlx_hook(win, 2, 0, key_hook_mng, param);
-	mlx_hook(win, 5, 0, mouse_hook_mng, param);
-	mlx_hook(win, 17, 0, close, param);
-}
-
-
 int	render_next_frame(void *mlx, t_fdf *fdata)
 {
 	t_fdf	*temp;
@@ -43,3 +35,12 @@ void my_loop_hook(void *mlx, void *args)
 {
 	mlx_loop_hook(mlx, render_next_frame, args);
 }
+
+void my_hook(void *win, void *param)
+{
+	mlx_hook(win, 2, 0, key_hook_mng, param);
+	mlx_hook(win, 5, 0, mouse_hook_mng, param);
+	mlx_hook(win, 17, 0, close, param);
+}
+
+
