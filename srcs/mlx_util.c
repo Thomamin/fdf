@@ -22,8 +22,7 @@ void	ft_drawline_h(t_data *data, t_f_dot f0, t_f_dot f1, unsigned int color)
 	t_f_dot	f;
 	int		inc;
  
- 	color = 0x00ffffff;
-	df.fx = f1.fx - f0.fx;
+ 	df.fx = f1.fx - f0.fx;
 	df.fy = f1.fy - f0.fy;
 	inc = 1;
 	if (df.fx < 0)
@@ -113,8 +112,10 @@ void ft_draw_x_lines(t_fdf *fdf, t_data *img, unsigned int color)
 		j = 0;
 		while (j < fdf->cnt_x - 1)
 		{
-			ft_dline(img, to_f(c_dots[i * (fdf->cnt_x) + j], rad, &img->size), \
-			  to_f(c_dots[i * (fdf->cnt_x) + j + 1], rad, &img->size), color);			
+			ft_dline(img, \
+				to_f(c_dots[i * (fdf->cnt_x) + j], rad, &img->size, \
+				img->view_mode), to_f(c_dots[i * (fdf->cnt_x) + j + 1], \
+				rad, &img->size, img->view_mode), color);			
 			j++;
 		}
 		i++;
@@ -136,8 +137,9 @@ void ft_draw_z_lines(t_fdf *fdf, t_data *img, unsigned int color)
 		j = 0;
 		while (j < fdf->cnt_z - 1)
 		{
-			ft_dline(img, to_f(c_dots[j * (fdf->cnt_x) + i], rad, &img->size), \
-			  to_f(c_dots[(j + 1) * (fdf->cnt_x) + i], rad, &img->size), color);
+			ft_dline(img, to_f(c_dots[j * (fdf->cnt_x) + i], rad, &img->size, \
+				img->view_mode), to_f(c_dots[(j + 1) * (fdf->cnt_x) + i], rad,\
+				&img->size, img->view_mode), color);
 			j++;
 		}
 		i++;

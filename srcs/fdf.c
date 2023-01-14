@@ -27,19 +27,22 @@ void ft_draw_axis(t_data *img, double rad, t_imgsz size)
 	s_dot.cz = img->size.mid_cz;
 	e_dot =  s_dot;
 	e_dot.cx = 5000;
-	ft_dline(img, to_f(s_dot, rad, &size), to_f(e_dot, rad, &size), 0x00FF0000);
+	ft_dline(img, to_f(s_dot, rad, &size, img->view_mode), \
+		to_f(e_dot, rad, &size, img->view_mode), 0x00FF0000);
 	s_dot.cx = img->size.mid_cx;
 	s_dot.cy = -5000;
 	s_dot.cz = img->size.mid_cz;
 	e_dot =  s_dot;
 	e_dot.cy = 5000;
-	ft_dline(img, to_f(s_dot, rad, &size), to_f(e_dot, rad, &size), 0x0000FF00);
+	ft_dline(img, to_f(s_dot, rad, &size, img->view_mode), \
+		to_f(e_dot, rad, &size, img->view_mode), 0x0000FF00);
 	s_dot.cx = img->size.mid_cx;
 	s_dot.cy = img->size.mid_cy;
 	s_dot.cz = -5000;
 	e_dot =  s_dot;
 	e_dot.cz = 5000;
-	ft_dline(img, to_f(s_dot, rad, &size), to_f(e_dot, rad, &size), 0x000000FF);
+	ft_dline(img, to_f(s_dot, rad, &size, img->view_mode), \
+		to_f(e_dot, rad, &size, img->view_mode), 0x000000FF);
 }
 
 void check_leak(void)
@@ -70,7 +73,7 @@ void my_get_img_limit(t_c_dot c_dot, t_data *img)
 {
 	t_f_dot f_dot;
 
-	f_dot = to_f(c_dot, img->radian, NULL);   //-----------------------------
+	f_dot = to_f(c_dot, img->radian, NULL, img->view_mode); 
 	if (f_dot.fx < img->size.min_x)
 		img->size.min_x = f_dot.fx;
 	if (f_dot.fx > img->size.max_x)
@@ -162,8 +165,6 @@ int	main(int argc, char **argv)
 	ft_c_rotate(&fdf_data, Y_AXIS, -90);
 	my_get_img_size(&fdf_data, &img);
 	my_init_mlx_win(&img);
-	ft_drawmesh(&fdf_data, &img, 0x0000FF00);
-	mlx_put_image_to_window(img.mlx, img.win, img.img, 0, 0);
 	my_hook(&img);
 	my_loop_hook(&img, &fdf_data);
 	mlx_loop(img.mlx);
