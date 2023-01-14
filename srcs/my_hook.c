@@ -26,7 +26,7 @@ void move_key(int keycode, t_data *img)
 		img->z_mv = -10;
 }
 
-void toggle_axis(int keycode, t_data *img)
+void toggle_modes(int keycode, t_data *img)
 {
 	if (keycode == 0)
 	{
@@ -35,12 +35,19 @@ void toggle_axis(int keycode, t_data *img)
 		else
 			img->draw_axis = 0; 
 	}
+	if (keycode == 12)
+	{
+		if (img->view_mode == 0)
+			img->view_mode = 1;
+		else
+			img->view_mode = 0;
+	}
 }
 
 int key_hook_mng(int keycode, t_data *img)
 {
 	move_key(keycode, img);
-	toggle_axis(keycode, img);
+	toggle_modes(keycode, img);
 	if (keycode == 126)
 		img->x_rot = 5;
 	if (keycode == 125)
@@ -74,13 +81,13 @@ int	render_next_frame(t_data *img)
 	width = img->size.max_x - img->size.min_x + 100;
 	height = img->size.max_y - img->size.min_y + 100;
 	ft_c_move(img->fdf, img->x_mv, img->y_mv, img->z_mv);
-	ft_c_move(img->fdf, -(img->size.mn_cx + img->size.mx_cx) / 2, -(img->size.mn_cy + img->size.mx_cy) / 2, -(img->size.mn_cz + img->size.mx_cz) / 2);
+	ft_c_move(img->fdf, -(img->size.mid_cx), -(img->size.mid_cy), -(img->size.mid_cz));
 	ft_c_zoom(img->fdf, 1000);
 	ft_c_rotate(img->fdf, X_AXIS, img->x_rot);
 	ft_c_rotate(img->fdf, Y_AXIS, img->y_rot);
 	ft_c_zoom(img->fdf, img->times);
 	ft_c_zoom(img->fdf, 0.001);
-	ft_c_move(img->fdf, (img->size.mx_cx + img->size.mn_cx) / 2, (img->size.mx_cy + img->size.mn_cy) / 2, (img->size.mx_cz + img->size.mn_cz) / 2);
+	ft_c_move(img->fdf, img->size.mid_cx, img->size.mid_cy, img->size.mid_cz);
 	mlx_destroy_image(img->mlx, img->img);
 	img->img = mlx_new_image(img->mlx, width, height);
 	img->addr = mlx_get_data_addr(img->img, &img->bits_per_pixel, \

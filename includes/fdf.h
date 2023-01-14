@@ -13,15 +13,11 @@
 #ifndef FDF_H
 # define FDF_H
 
-# ifndef X_AXIS
 #  define X_AXIS 1
-# endif
-# ifndef Y_AXIS
 #  define Y_AXIS 2
-# endif
-# ifndef Z_AXIS
 #  define Z_AXIS 3
-# endif
+#  define ISO    1
+#  define ONEP   2	
 
 typedef struct	s_args {
 	void	*mlx;
@@ -56,6 +52,9 @@ typedef struct	s_imgsz
 	int		min_y;
 	int		max_x;
 	int		max_y;
+	double	mid_cx;
+	double	mid_cy;
+	double	mid_cz;
 	double	mn_cx;
 	double	mn_cy;
 	double	mn_cz;
@@ -79,13 +78,14 @@ typedef struct	s_data
 	double	y_mv;
 	double	z_mv;
 	int		draw_axis;
+	int		view_mode;
 	void	*mlx;
 	void	*win;
 	double	radian;
 	t_fdf	*fdf;
 }				t_data;
 
-t_f_dot to_f(t_c_dot dot, double radian, t_imgsz size);
+t_f_dot to_f(t_c_dot dot, double radian, t_imgsz *size);
 void	ft_dline(t_data *data, t_f_dot f0, t_f_dot f1, unsigned int color);
 void	my_mlx_pixel_put(t_data *data, t_f_dot f);
 void 	my_hook(t_data *img);

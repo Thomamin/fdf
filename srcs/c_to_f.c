@@ -3,7 +3,7 @@
 #include <libft.h>  //-------------------------------------------
 
 // transforms x,y,z coordinates into Flash x coordinate
-int	to_fx(t_c_dot dot, double radian, t_imgsz *size) 
+int	to_iso_x(t_c_dot dot, double radian, t_imgsz *size) 
 {
 	double xCart;
 	int xI;
@@ -14,17 +14,11 @@ int	to_fx(t_c_dot dot, double radian, t_imgsz *size)
 	else
 		xI = xCart;
 
-	// if (size != NULL)
-	// 	xI = dot.cx - size->min_x + 50;
-	// else
-	// 	xI = dot.cx;
-
-
 	return (xI);
 }
  
 // transforms x,y,z coordinates into Flash y coordinate
-int to_fy(t_c_dot dot, double radian, t_imgsz *size) 
+int to_iso_y(t_c_dot dot, double radian, t_imgsz *size) 
 {
 	double yCart;
 	int yI;
@@ -35,19 +29,14 @@ int to_fy(t_c_dot dot, double radian, t_imgsz *size)
 	else
 		yI = -yCart;
 
-	// if (size != NULL)
-	// 	yI = dot.cz - size->min_y + 50;
-	// else
-	// 	yI = dot.cz;
-	
 	return (yI);
 };
 
 
-t_f_dot to_f(t_c_dot dot, double radian, t_imgsz size)
+t_f_dot to_f(t_c_dot dot, double radian, t_imgsz *size)
 {
 	t_f_dot f;
-	f.fx = to_fx(dot, radian, &size);
-	f.fy = to_fy(dot, radian, &size);
+	f.fx = to_iso_x(dot, radian, size);
+	f.fy = to_iso_y(dot, radian, size);
 	return (f);
 }
