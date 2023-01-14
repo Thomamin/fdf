@@ -2,7 +2,7 @@
 #include <mlx.h>
 #include "fdf.h"
 
-t_c_dot *my_set_c_dot(t_c_dot *c_dot, int x, int y, int z, unsigned int color)
+t_c_dot *my_set_c_dot(t_c_dot *c_dot, double x, double y, double z, unsigned int color)
 {
 	c_dot->cx = x;
 	c_dot->cy = y;
@@ -18,7 +18,7 @@ int	ft_get_fdf_line_len(char **data_line)
 	len = 0;
 	while (data_line[len] != NULL)
 		len++;
-	return (len - 1);
+	return (len);
 }
 
 void ft_free_multi_arr(char **data_line)
@@ -73,7 +73,7 @@ t_fdf *my_set_vals(t_fdf *fdf, int linelen, char *readline, char **dataline)
 	return (fdf);
 }
 
-void *ft_read_fdf(t_fdf *fdf, int fd)
+t_c_dot *ft_read_fdf(t_fdf *fdf, int fd)
 {
 	int		linelen[2];
 	char	*readline;      // gnl로 읽은 문자열
@@ -93,7 +93,7 @@ void *ft_read_fdf(t_fdf *fdf, int fd)
 		if(linelen[0] != linelen[1] && fdf->cnt_z > 0)
 		{
 			ft_free_multi_arr(data_line);
-			return (ft_err_mng(12, "FDF input data error", readline, NULL));
+			return (ft_err_mng(12, "FDF input error", readline, fdf->c_dots));
 		}
 		fdf = my_set_vals(fdf, linelen[1], readline, data_line);
 		fdf->cnt_z++;

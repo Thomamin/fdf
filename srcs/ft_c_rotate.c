@@ -73,15 +73,17 @@ void ft_c_z_rotate(t_fdf *fdf, double theta)
 void ft_c_rotate(t_fdf *fdf, int axis, int degree_theta)
 {
 	double	radian_theta;
-	
-	radian_theta = (degree_theta % 360) * (M_PI / 180.0);
-	if (axis == X_AXIS)
-		ft_c_x_rotate(fdf, radian_theta);
-	if (axis == Y_AXIS)
-		ft_c_y_rotate(fdf, radian_theta);
-	if (axis == Z_AXIS)
-		ft_c_z_rotate(fdf, radian_theta);
-	
+
+	if (degree_theta != 0)	
+	{
+		radian_theta = (degree_theta % 360) * (M_PI / 180.0);
+		if (axis == X_AXIS)
+			ft_c_x_rotate(fdf, radian_theta);
+		if (axis == Y_AXIS)
+			ft_c_y_rotate(fdf, radian_theta);
+		if (axis == Z_AXIS)
+			ft_c_z_rotate(fdf, radian_theta);
+	}
 }
 
 void ft_c_zoom(t_fdf *fdf, float times)
@@ -91,12 +93,32 @@ void ft_c_zoom(t_fdf *fdf, float times)
 
 	c_dots = fdf->c_dots;
 	i = 0;
-
-	while (i++ < fdf->cnt_x * fdf->cnt_z)
+	if (times <= 0)
+		times = 1;
+	while (i++ < fdf->cnt_x * fdf->cnt_z && times != 1)
 	{
 		c_dots->cx = c_dots->cx * times;
 		c_dots->cy = c_dots->cy * times;
 		c_dots->cz = c_dots->cz * times;
 		c_dots++;
+	}
+}
+
+void ft_c_move(t_fdf *fdf, double xm, double ym, double zm)
+{
+	int		i;
+	t_c_dot *c_dots;
+
+	c_dots = fdf->c_dots;
+	i = 0;
+	if (xm != 0 || ym != 0 || zm!= 0)
+	{
+		while (i++ < fdf->cnt_x * fdf->cnt_z)
+		{
+			c_dots->cx = c_dots->cx + xm;
+			c_dots->cy = c_dots->cy + ym;
+			c_dots->cz = c_dots->cz + zm;	
+			c_dots++;
+		}
 	}
 }
