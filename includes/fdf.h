@@ -75,6 +75,10 @@ typedef struct	s_data
 	float	times;
 	int		x_rot;
 	int		y_rot;
+	double	x_mv;
+	double	y_mv;
+	double	z_mv;
+	int		draw_axis;
 	void	*mlx;
 	void	*win;
 	double	radian;

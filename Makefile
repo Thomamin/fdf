@@ -15,8 +15,11 @@ OPENGL = -framework OpenGL -framework AppKit
 
 all : $(NAME)
 
-$(NAME) : $(OBJ) libft mlx
+$(NAME) : $(OBJ_PATH) $(OBJ) libft mlx
 	gcc	$(FLAGS) $(OBJ) $(INC_LINK) $(LIBFT) $(MLX) $(OPENGL) -o $(NAME) 
+
+$(OBJ_PATH):
+	mkdir -p $(OBJ_PATH)
 
 $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c
 	gcc $(FLAGS) $(INC_LINK) -o $@ -c $<
