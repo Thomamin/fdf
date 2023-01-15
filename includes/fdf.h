@@ -19,7 +19,8 @@
 #  define ISO    0
 #  define ONEP   1	
 
-typedef struct	s_args {
+typedef struct	s_args 
+{
 	void	*mlx;
 	void	*win;
 }				t_args;
@@ -55,12 +56,8 @@ typedef struct	s_imgsz
 	double	mid_cx;
 	double	mid_cy;
 	double	mid_cz;
-	double	mn_cx;
-	double	mn_cy;
-	double	mn_cz;
-	double	mx_cx;
-	double	mx_cy;
-	double	mx_cz;
+	double	min_cy;
+	double	max_cy;
 }				t_imgsz;
 
 typedef struct	s_data 
@@ -79,6 +76,7 @@ typedef struct	s_data
 	double	z_mv;
 	int		draw_axis;
 	int		view_mode;
+	int		color_mode;
 	void	*mlx;
 	void	*win;
 	double	radian;
@@ -86,18 +84,21 @@ typedef struct	s_data
 }				t_data;
 
 t_f_dot to_f(t_c_dot dot, double radian, t_imgsz *size, int mode);
-void	ft_dline(t_data *data, t_f_dot f0, t_f_dot f1, unsigned int color);
-void	my_mlx_pixel_put(t_data *data, t_f_dot f);
+void	ft_dline(t_data *data, t_f_dot f0, t_f_dot f1);
+void	ft_drawmesh(t_fdf *fdf, t_data *img);
+void	my_fdf_coloring(t_data *img, t_fdf *fdf, int c_mode);
 void 	my_hook(t_data *img);
 void	my_loop_hook(t_data *img, t_fdf *fdf);
-int		render_next_frame(t_data *img);
 t_c_dot	*ft_read_fdf(t_fdf *fdf, int fd);
+t_c_dot	*my_set_c_dot(t_c_dot *c_dot, double x, double y, double z);
 void	ft_c_rotate(t_fdf *fdf, int axit, int degree_theta);
 void	ft_c_zoom(t_fdf *fdf, float times);
 void	ft_c_move(t_fdf *fdf, double xm, double ym, double zm);
-void	ft_drawmesh(t_fdf *fdf, t_data *img, unsigned int color);
 t_data	*my_init_mlx_win(t_data *img);
 void	*ft_err_mng(int err_code, char *err_msg, void *mem1, void *mem2);
 void	ft_draw_axis(t_data *img, double rad, t_imgsz size);
+void	move_key(int keycode, t_data *img);
+void	toggle_modes(int keycode, t_data *img);
+int		render_next_frame(t_data *img);
 
 #endif

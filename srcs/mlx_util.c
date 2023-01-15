@@ -1,110 +1,14 @@
 #include <mlx.h>
-#include <stdlib.h>
-#include <libft.h>
 #include "fdf.h"
 
-void	my_mlx_pixel_put(t_data *img, t_f_dot f)
-{
-	char	*dst;
-
-	dst = NULL;
-	if (f.fx > 0 && f.fx < img->size.max_x - img->size.min_x + 100 && f.fy < img->size.max_y - img->size.min_y + 100 && f.fy > 0)
-	{
-		dst = img->addr + (f.fy * img->line_length + f.fx * (img->bits_per_pixel / 8));
-		*(unsigned int*)dst = f.color;
-	}
-}
-
-void	ft_drawline_h(t_data *data, t_f_dot f0, t_f_dot f1, unsigned int color)
-{
-    t_f_dot df;
-	int		p;
-	t_f_dot	f;
-	int		inc;
- 
- 	df.fx = f1.fx - f0.fx;
-	df.fy = f1.fy - f0.fy;
-	inc = 1;
-	if (df.fx < 0)
-	{
-		inc = -1;
-		df.fx = df.fx * -1;
-	}
-	f = f0;
-	p = 2 * df.fx - df.fy;
-	f.color = color;
-	while(f.fy < f1.fy)
-	{
-		my_mlx_pixel_put(data, f);
-		if(p >= 0)
-		{
-			f.fx = f.fx + inc;
-			p = p + 2 * (df.fx - df.fy);
-		}
-		else
-			p = p + 2 * df.fx;
-		f.fy++;
-	}
-}
-
-void	ft_drawline_w(t_data *data, t_f_dot f0, t_f_dot f1, unsigned int color)
-{
-    t_f_dot df;
-	int		p;
-	t_f_dot	f;
-	int		inc;
- 
-	df.fx = f1.fx - f0.fx;
-	df.fy = f1.fy - f0.fy;
-	inc = 1;
-	if (df.fy < 0)
-	{
-		inc = -1;
-		df.fy = df.fy * -1;
-	}	
-	f = f0;
-	p = 2 * df.fy - df.fx;
- 	f.color = color;
-	while(f.fx < f1.fx)
-	{
-		my_mlx_pixel_put(data, f);
-		if(p >= 0)
-		{
-			f.fy = f.fy + inc;
-			p = p + 2 * (df.fy - df.fx);
-		}
-		else
-			p = p + 2 * df.fy;
-		f.fx++;
-	}
-}
-
-void ft_dline(t_data *data, t_f_dot f0, t_f_dot f1, unsigned int color)
-{
-	if (abs(f1.fy - f0.fy) < abs (f1.fx - f0.fx))
-	{
-		if (f0.fx > f1.fx)
-			ft_drawline_w(data, f1, f0, color);
-		else
-			ft_drawline_w(data, f0, f1, color);
-	}
-	else
-	{
-		if (f0.fy > f1.fy)
-			ft_drawline_h(data, f1, f0, color);
-		else
-			ft_drawline_h(data, f0, f1, color);
-	}	
-}
-
-void ft_draw_x_lines(t_fdf *fdf, t_data *img, unsigned int color)
+void	ft_draw_x_lines(t_fdf *fdf, t_data *img)
 {
 	int		i;
 	int		j;
 	t_c_dot	*c_dots;
 	double	rad;
 
-	i = 0; 
+	i = 0;
 	rad = img->radian;
 	c_dots = fdf->c_dots;
 	while (i < fdf->cnt_z)
@@ -115,14 +19,14 @@ void ft_draw_x_lines(t_fdf *fdf, t_data *img, unsigned int color)
 			ft_dline(img, \
 				to_f(c_dots[i * (fdf->cnt_x) + j], rad, &img->size, \
 				img->view_mode), to_f(c_dots[i * (fdf->cnt_x) + j + 1], \
-				rad, &img->size, img->view_mode), color);			
+				rad, &img->size, img->view_mode));
 			j++;
 		}
 		i++;
 	}	
 }
 
-void ft_draw_z_lines(t_fdf *fdf, t_data *img, unsigned int color)
+void	ft_draw_z_lines(t_fdf *fdf, t_data *img)
 {
 	int		i;
 	int		j;
@@ -138,16 +42,65 @@ void ft_draw_z_lines(t_fdf *fdf, t_data *img, unsigned int color)
 		while (j < fdf->cnt_z - 1)
 		{
 			ft_dline(img, to_f(c_dots[j * (fdf->cnt_x) + i], rad, &img->size, \
-				img->view_mode), to_f(c_dots[(j + 1) * (fdf->cnt_x) + i], rad,\
-				&img->size, img->view_mode), color);
+				img->view_mode), to_f(c_dots[(j + 1) * (fdf->cnt_x) + i], rad, \
+				&img->size, img->view_mode));
 			j++;
 		}
 		i++;
 	}
 }
 
-void ft_drawmesh(t_fdf *fdf, t_data *img, unsigned int color)
+void	ft_drawmesh(t_fdf *fdf, t_data *img)
 {
-	ft_draw_x_lines(fdf, img, color);
-	ft_draw_z_lines(fdf, img, color);
+	ft_draw_x_lines(fdf, img);
+	ft_draw_z_lines(fdf, img);
+}
+
+t_data	*my_init_mlx_win(t_data *img)
+{
+	int	width;
+	int	height;
+
+	width = img->size.max_x - img->size.min_x + 100;
+	height = img->size.max_y - img->size.min_y + 100;
+	if (width > 4000)
+		width = 4000;
+	if (height > 2000)
+		height = 2000;
+	img->mlx = mlx_init();
+	if (!img->mlx)
+		return (ft_err_mng(20, "Can't connect graphical system", 0, 0));
+	img->win = mlx_new_window(img->mlx, width, height, "dmin's FDF");
+	img->img = mlx_new_image(img->mlx, width, height);
+	img->addr = mlx_get_data_addr(img->img, &img->bits_per_pixel, \
+							&img->line_length, &img->endian);
+	return (img);
+}
+
+void	ft_draw_axis(t_data *img, double rad, t_imgsz size)
+{
+	t_c_dot	s_dot;
+	t_c_dot	e_dot;
+
+	s_dot.cx = -5000;
+	s_dot.cy = img->size.mid_cy;
+	s_dot.cz = img->size.mid_cz;
+	e_dot = s_dot;
+	e_dot.cx = 5000;
+	ft_dline(img, to_f(s_dot, rad, &size, img->view_mode), \
+		to_f(e_dot, rad, &size, img->view_mode));
+	s_dot.cx = img->size.mid_cx;
+	s_dot.cy = -5000;
+	s_dot.cz = img->size.mid_cz;
+	e_dot = s_dot;
+	e_dot.cy = 5000;
+	ft_dline(img, to_f(s_dot, rad, &size, img->view_mode), \
+		to_f(e_dot, rad, &size, img->view_mode));
+	s_dot.cx = img->size.mid_cx;
+	s_dot.cy = img->size.mid_cy;
+	s_dot.cz = -5000;
+	e_dot = s_dot;
+	e_dot.cz = 5000;
+	ft_dline(img, to_f(s_dot, rad, &size, img->view_mode), \
+		to_f(e_dot, rad, &size, img->view_mode));
 }

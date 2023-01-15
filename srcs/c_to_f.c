@@ -1,64 +1,59 @@
 #include <math.h>
 #include "fdf.h"
 
-int	to_iso_x(t_c_dot dot, double radian, t_imgsz *size) 
+int	to_iso_x(t_c_dot dot, double radian, t_imgsz *size)
 {
-	double xCart;
-	int xI;
-	
-	xCart = (dot.cz - dot.cx) * cos(radian);
-	if (size)
-		xI = xCart - size->min_x + 50; 
-	else
-		xI = xCart;
+	double	xcart;
+	int		xi;
 
-	return (xI);
+	xcart = (dot.cz - dot.cx) * cos(radian);
+	if (size)
+		xi = xcart - size->min_x + 50;
+	else
+		xi = xcart;
+	return (xi);
 }
- 
-int to_iso_y(t_c_dot dot, double radian, t_imgsz *size) 
-{
-	double yCart;
-	int yI;
 
-	yCart = dot.cy + (dot.cx + dot.cz) * sin(radian);
+int	to_iso_y(t_c_dot dot, double radian, t_imgsz *size)
+{
+	double	ycart;
+	int		yi;
+
+	ycart = dot.cy + (dot.cx + dot.cz) * sin(radian);
 	if (size)
-		yI = -yCart - size->min_y + 50;
+		yi = -ycart - size->min_y + 50;
 	else
-		yI = -yCart;
+		yi = -ycart;
+	return (yi);
+}
 
-	return (yI);
-};
-
-void to_onep_x(t_c_dot *dot, t_imgsz *size) 
+void	to_onep_x(t_c_dot *dot, t_imgsz *size)
 {
-	double	xOnep;
+	double	xonep;
 	double	rate;
 
-	(void) size;
 	rate = 1 - dot->cz / (size->max_x - size->min_x);
 	if (rate < 0)
 		rate = 0;
-	xOnep = dot->cx * rate;
-	dot->cx = xOnep;
+	xonep = dot->cx * rate;
+	dot->cx = xonep;
 }
 
-void to_onep_y(t_c_dot *dot, t_imgsz *size) 
+void	to_onep_y(t_c_dot *dot, t_imgsz *size)
 {
-	double	yOnep;
+	double	yonep;
 	double	rate;
 
-	(void) size;
 	rate = 1 - dot->cz / (size->max_x - size->min_x);
 	if (rate < 0)
 		rate = 0;
-	yOnep = dot->cy * rate;
-	dot->cy = yOnep;
-};
+	yonep = dot->cy * rate;
+	dot->cy = yonep;
+}
 
-
-t_f_dot to_f(t_c_dot dot, double radian, t_imgsz *size, int mode)
+t_f_dot	to_f(t_c_dot dot, double radian, t_imgsz *size, int mode)
 {
-	t_f_dot f;
+	t_f_dot	f;
 
 	if (mode == 1)
 	{
@@ -67,5 +62,6 @@ t_f_dot to_f(t_c_dot dot, double radian, t_imgsz *size, int mode)
 	}
 	f.fx = to_iso_x(dot, radian, size);
 	f.fy = to_iso_y(dot, radian, size);
+	f.color = dot.color;
 	return (f);
 }
