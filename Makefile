@@ -1,7 +1,20 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: dmin <dmin@student.42seoul.kr>             +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2023/01/16 11:58:04 by dmin              #+#    #+#              #
+#    Updated: 2023/01/16 11:58:13 by dmin             ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 NAME = fdf
 FLAGS = -Wall -Wextra -Werror
 SRC_PATH = ./srcs
-SRC_NAME = fdf.c c_to_f.c mlx_util.c my_hook.c read_fdf.c ft_c_rotate.c ft_err_mng.c
+SRC_NAME = fdf.c c_to_f.c mlx_util.c my_hook.c read_fdf.c ft_c_rotate.c ft_err_mng.c \
+			my_hook_sub.c read_fdf_sub.c translate.c color.c draw_line.c
 SRC = $(addprefix $(SRC_PATH)/, $(SRC_NAME))
 
 OBJ_NAME = $(SRC_NAME:.c=.o)
@@ -36,8 +49,7 @@ clean :
 	@$(MAKE) -C ./lib/mlx clean
 	@rm -f $(OBJ)
 
-fclean :
-	@$(MAKE) -C ./lib/libft fclean
+fclean : clean
 	@rm -f $(OBJ) $(NAME)
 
 re : fclean all

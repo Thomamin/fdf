@@ -12,20 +12,19 @@
 
 #ifndef FDF_H
 # define FDF_H
+# define X_AXIS 1
+# define Y_AXIS 2
+# define Z_AXIS 3
+# define ISO    0
+# define ONEP   1	
 
-#  define X_AXIS 1
-#  define Y_AXIS 2
-#  define Z_AXIS 3
-#  define ISO    0
-#  define ONEP   1	
-
-typedef struct	s_args 
+typedef struct s_args
 {
 	void	*mlx;
 	void	*win;
 }				t_args;
 
-typedef struct	s_c_dot
+typedef struct s_c_dot
 {
 	double			cx;
 	double			cy;
@@ -33,21 +32,21 @@ typedef struct	s_c_dot
 	unsigned int	color;
 }				t_c_dot;
 
-typedef struct	s_f_dot
+typedef struct s_f_dot
 {
 	int				fx;
 	int				fy;
 	unsigned int	color;
 }				t_f_dot;
 
-typedef struct	s_fdf
+typedef struct s_fdf
 {
 	t_c_dot	*c_dots;
 	int		cnt_x;
 	int		cnt_z;
 }				t_fdf;
 
-typedef struct	s_imgsz
+typedef struct s_imgsz
 {
 	int		min_x;
 	int		min_y;
@@ -60,7 +59,7 @@ typedef struct	s_imgsz
 	double	max_cy;
 }				t_imgsz;
 
-typedef struct	s_data 
+typedef struct s_data
 {
 	void	*img;
 	char	*addr;
@@ -83,11 +82,11 @@ typedef struct	s_data
 	t_fdf	*fdf;
 }				t_data;
 
-t_f_dot to_f(t_c_dot dot, double radian, t_imgsz *size, int mode);
+t_f_dot	to_f(t_c_dot dot, double radian, t_imgsz *size, int mode);
 void	ft_dline(t_data *data, t_f_dot f0, t_f_dot f1);
 void	ft_drawmesh(t_fdf *fdf, t_data *img);
 void	my_fdf_coloring(t_data *img, t_fdf *fdf, int c_mode);
-void 	my_hook(t_data *img);
+void	my_hook(t_data *img);
 void	my_loop_hook(t_data *img, t_fdf *fdf);
 t_c_dot	*ft_read_fdf(t_fdf *fdf, int fd);
 t_c_dot	*my_set_c_dot(t_c_dot *c_dot, double x, double y, double z);
